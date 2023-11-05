@@ -32,6 +32,25 @@ async function run() {
 
     const database = client.db("marketplaceDB");
 
+    //============================== gets ==============================
+
+    app.get("/posted-jobs", async (req, res) => {
+      try {
+        const servicesCollection = database.collection("postedJobs");
+        const cursor = servicesCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+      } catch (error) {
+        res.send({ error: true, message: error.message });
+      }
+    });
+
+    //============================== posts ==============================
+
+    //============================== patches ==============================
+
+    //============================== deletes ==============================
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
