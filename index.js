@@ -47,6 +47,17 @@ async function run() {
 
     //============================== posts ==============================
 
+    app.post("/posted-jobs", async (req, res) => {
+      try {
+        const servicesCollection = database.collection("postedJobs");
+        const postedJob = req.body;
+        const result = await servicesCollection.insertOne(postedJob);
+        res.send(result);
+      } catch (error) {
+        res.send({ error: true, message: error.message });
+      }
+    });
+
     //============================== patches ==============================
 
     //============================== deletes ==============================
