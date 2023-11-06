@@ -45,6 +45,21 @@ async function run() {
       }
     });
 
+    app.get("/my-posted-jobs", async (req, res) => {
+      try {
+        const servicesCollection = database.collection("postedJobs");
+        let query = {};
+        if (req.query?.email) {
+          query = { email: req.query.email };
+        }
+        const cursor = servicesCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+      } catch (error) {
+        res.send({ error: true, message: error.message });
+      }
+    });
+
     //============================== posts ==============================
 
     app.post("/posted-jobs", async (req, res) => {
