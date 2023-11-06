@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 
 const app = express();
@@ -74,6 +74,37 @@ async function run() {
     });
 
     //============================== patches ==============================
+
+    app.patch("/posted-jobs/:id", async (req, res) => {
+      try {
+        const servicesCollection = database.collection("postedJobs");
+        const jobId = req.params.id;
+        const filter = { _id: new ObjectId(jobId) };
+
+        const options = { upsert: true };
+
+        const updatedInfo = {
+          $set: {
+            email: req.body.email,
+            jobTitle: req.body.jobTitle,
+            deadline: req.body.deadline,
+            description: req.body.description,
+            category: req.body.category,
+            minimumPrice: req.body.minimumPrice,
+            maximumPrice: req.body.maximumPrice,
+          },
+        };
+
+        const result = await servicesCollection.updateOne(
+          filter,
+          updatedInfo,
+          options
+        );
+        res.send(result);
+      } catch (error) {
+        res.send({ error: true, message: error.message });
+      }
+    });
 
     //============================== deletes ==============================
 
