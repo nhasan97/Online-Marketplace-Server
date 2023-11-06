@@ -107,6 +107,17 @@ async function run() {
     });
 
     //============================== deletes ==============================
+    app.delete("/posted-jobs/:id", async (req, res) => {
+      try {
+        const servicesCollection = database.collection("postedJobs");
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await servicesCollection.deleteOne(query);
+        res.send(result);
+      } catch (error) {
+        res.send({ error: true, message: error.message });
+      }
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
