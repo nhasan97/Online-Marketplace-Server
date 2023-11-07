@@ -87,6 +87,21 @@ async function run() {
       }
     });
 
+    app.get("/bid-requests", async (req, res) => {
+      try {
+        const bidsCollection = database.collection("bids");
+        let query = {};
+        if (req.query?.email) {
+          query = { buyerEmail: req.query.email };
+        }
+        const cursor = bidsCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+      } catch (error) {
+        res.send({ error: true, message: error.message });
+      }
+    });
+
     //============================== posts ==============================
 
     app.post("/posted-jobs", async (req, res) => {
