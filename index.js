@@ -85,6 +85,17 @@ async function run() {
       }
     });
 
+    app.post("/bids", async (req, res) => {
+      try {
+        const bidsCollection = database.collection("bids");
+        const postedBid = req.body;
+        const result = await bidsCollection.insertOne(postedBid);
+        res.send(result);
+      } catch (error) {
+        res.send({ error: true, message: error.message });
+      }
+    });
+
     //============================== patches ==============================
 
     app.patch("/posted-jobs/:id", async (req, res) => {
