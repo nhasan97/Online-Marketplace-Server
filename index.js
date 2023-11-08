@@ -9,7 +9,16 @@ const app = express();
 const port = 5000 || process.env.PORT;
 
 //middlewares
-app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://assignment-eleven-487e9.web.app/",
+      "https://assignment-eleven-487e9.firebaseapp.com/",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
