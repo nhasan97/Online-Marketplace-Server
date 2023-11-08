@@ -159,6 +159,24 @@ async function run() {
       }
     });
 
+    app.patch("/bid-requests/:id", async (req, res) => {
+      try {
+        const bidsCollection = database.collection("bids");
+        const id = req.params.id;
+        const updatedStatus = req.body.status;
+        const filter = { _id: new ObjectId(id) };
+        const updateDoc = {
+          $set: {
+            status: updatedStatus,
+          },
+        };
+        const result = await bidsCollection.updateOne(filter, updateDoc);
+        res.send(result);
+      } catch (error) {
+        res.send({ error: true, message: error.message });
+      }
+    });
+
     //============================== deletes ==============================
     app.delete("/posted-jobs/:id", async (req, res) => {
       try {
