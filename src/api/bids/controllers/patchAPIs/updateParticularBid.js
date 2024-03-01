@@ -1,7 +1,11 @@
+const { ObjectId } = require("mongodb");
 const { getDB } = require("../../../../database/connectDatabase");
 
 const updateParticularBid = async (req, res) => {
   try {
+    // if (req.user.email !== req.query.email) {
+    //   return res.status(403).send({ message: "Forbidden Access" });
+    // }
     const database = getDB();
     const bidsCollection = database.collection("bids");
     const id = req.params.id;

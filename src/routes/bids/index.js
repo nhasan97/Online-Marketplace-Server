@@ -14,6 +14,6 @@ const router = express.Router();
 router.get("/bids", verifyToken, getBiddersBids);
 router.get("/bid-requests", verifyToken, getEmployersBidRequests);
 router.post("/bids", saveBidInDB);
-router.patch("/bid-requests/:id", updateParticularBid);
+router.patch("/bid-requests/:id", verifyToken, updateParticularBid);
 
 module.exports = router;
